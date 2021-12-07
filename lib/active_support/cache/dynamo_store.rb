@@ -47,7 +47,7 @@ module ActiveSupport
 
       protected
 
-      def read_entry(name, _options = nil)
+      def read_entry(name, **kwargs)
         result = dynamodb_client.get_item(
           key: { hash_key => name },
           table_name: table_name
@@ -60,7 +60,7 @@ module ActiveSupport
         nil
       end
 
-      def write_entry(name, value, _options = nil)
+      def write_entry(name, value, **kwargs)
         item = {
           hash_key => name,
           CONTENT_KEY => StringIO.new(Marshal.dump(value))
@@ -73,7 +73,7 @@ module ActiveSupport
         true
       end
 
-      def delete_entry(name, _options = nil)
+      def delete_entry(name, **kwargs)
         dynamodb_client.delete_item(
           key: { hash_key => name },
           table_name: table_name
